@@ -3,7 +3,7 @@ def read_movie_genre(f):
     prevmovie=''
     for line in open(f):
         if prevmovie!=line[line.index('|')+3:].strip('\n'):
-            movie = line[line.index('|')+3:].strip('\n')
+            movie = line[line.index('|')+3:].strip('\n|')
             genre = line[:line.index('|')]
             #print(movie,genre)
 
