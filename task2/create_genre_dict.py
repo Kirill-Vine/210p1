@@ -13,12 +13,13 @@ def read_movie_genre(f):
         
     return dct
   
-def create_genre_dict(d):
+def create_genre_dict(dct):
  result= {}
- for(movie, genre) in d.items():
+ for(movie, genre) in dct.items():
      if genre in result.keys():
          result[genre].append(movie)
      else:
          result[genre] = [movie]
-   return result
+ return result
+
 create_genre_dict(read_movie_genre('genreMovieSample.txt'))
