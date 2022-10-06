@@ -9,15 +9,15 @@ def read_ratings_data(f):
         dct[movie]=rating
         prevmovie=movie
     return dct 
-def calculate_average_rating(d):
-    output = {}
-    for(name,ratingList) in d.items():
+def calculate_average_rating(dct):
+    result = {}
+    for(name,ratingList) in dct.items():
         sum = 0
         count = 0
         for rating in ratingList:
             sum += float(rating)
             count += 1
         avrg = float("{:.1f}".format(sum/count))
-        outout[name] = avrg
-    return output
+        result[name] = avrg
+    return result
 calculate_average_rating(read_ratings_data("movieRatingSample.txt"))
