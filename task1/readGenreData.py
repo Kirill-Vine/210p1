@@ -5,7 +5,7 @@ def read_movie_genre(f):
         if prevmovie!=line[line.index('|')+3:].strip('\n'):
             movie = line[line.index('|')+3:].strip('\n')
             genre = line[:line.index('|')]
-            print(movie,genre)
+            #print(movie,genre)
 
         #genre.append(line[:line.index('|')])
         dct[movie] = genre
