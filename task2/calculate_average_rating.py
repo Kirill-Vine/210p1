@@ -9,9 +9,9 @@ def read_ratings_data(f):
         dct[movie]=rating
         prevmovie=movie
     return dct 
-def calculate_average_rating(dct):
+def calculate_average_rating(d):
     result = {}
-    for(name,ratingList) in dct.items():
+    for(name,ratingList) in d.items():
         sum = 0
         count = 0
         for rating in ratingList:
