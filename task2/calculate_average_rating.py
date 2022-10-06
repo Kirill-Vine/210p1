@@ -15,9 +15,9 @@ def calculate_average_rating(d):
         sum = 0
         count = 0
         for rating in ratingList:
-            sum+=float(rating)
-            count+=1
-        average = float("{:.1f}".format(sum/count))
-        outout[name] = average
+            sum += float(rating)
+            count += 1
+        avrg = float("{:.1f}".format(sum/count))
+        outout[name] = avrg
     return output
 calculate_average_rating(read_ratings_data("movieRatingSample.txt"))
