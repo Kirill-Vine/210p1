@@ -3,11 +3,14 @@ def read_movie_genre(f):
     prevmovie=''
     for line in open(f):
         if prevmovie!=line[line.index('|')+3:].strip('\n'):
-            genre=[]
-        movie = line[line.index('|')+3:].strip('\n')
-        genre.append(line[:line.index('|')])
-        dct[movie]=genre
+            movie = line[line.index('|')+3:].strip('\n')
+            genre = line[:line.index('|')]
+            print(movie,genre)
+
+        #genre.append(line[:line.index('|')])
+        dct[movie] = genre
         prevmovie=movie
+        
     return dct
   
 read_movie_genre('genreMovieSample.txt')
