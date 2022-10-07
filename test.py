@@ -168,7 +168,21 @@ def get_user_genre(user_id, user_to_movies, movie_to_genre):
 
 # 4.3
 def recommend_movies(user_id, user_to_movies, movie_to_genre, movie_to_average_rating):
-    pass
+    utg=get_user_genre(user_id,user_to_movies,movie_to_genre) #user top genre
+    movies=list()
+    lst=list()
+    for i in user_to_movies.get(str(user_id)):
+        lst.append(i[0])
+    for i in movie_to_genre.items():
+        if i[1]==utg and i[0] not in lst:
+            movies.append(i[0])
+    dct={}
+    for i in movie_to_average_rating.items():
+        if i[0] in movies:
+            dct[i[0]]=i[1]
+    sorted(dct.items(), key=lambda item: item[1], reverse=True)
+    return dct
+
 
 # --- main function for your testing ---
 def main():
@@ -194,8 +208,15 @@ def main():
             ),'\n',
         read_user_ratings("movieRatingSample.txt"),'\n',
         get_user_genre(43,read_user_ratings("movieRatingSample.txt"), read_movie_genre('genreMovieSample.txt')), '\n',
-        genre_popularity(create_genre_dict(read_movie_genre('genreMovieSample.txt')), calculate_average_rating(read_ratings_data("movieRatingSample.txt")), n=5)
-
+        genre_popularity(create_genre_dict(read_movie_genre('genreMovieSample.txt')), calculate_average_rating(read_ratings_data("movieRatingSample.txt")), n=5), '\n',
+        recommend_movies(8,read_user_ratings("movieRatingSample.txt"),
+            read_movie_genre('genreMovieSample.txt'),
+            calculate_average_rating(read_ratings_data("movieRatingSample.txt")))
         )
+
    
+   
+    
+    
 main()
+
