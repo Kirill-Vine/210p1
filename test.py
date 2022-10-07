@@ -19,7 +19,7 @@ def read_ratings_data(f):
         rating.append(line[line.index('|')+1:line.index('|')+4])
         dct[movie]=rating
         prevmovie=movie
-    return dct 
+    return dct
 
 # 1.2
 def read_movie_genre(f):
@@ -76,53 +76,72 @@ def filter_movies(d, thres_rating=3):
     for (key,value) in d.items():
         if value >= thres_rating:
             new_movie_rating[key] = value
-            
+
     return new_movie_rating
 
 
 # 3.3
 def get_popular_in_genre(genre, genre_to_movies, movie_to_average_rating, n=5):
-    # get list of movies in genre
     movies = genre_to_movies[genre]
-    #print(movies)
-    movies_to_rating_sort = sorted(movie_to_average_rating.keys(), key = lambda item: item[1], reverse=True)
-    #print(type(movies_to_rating_sort))
+    movies_to_rating_sort = sorted(movie_to_average_rating.items(), key = lambda item: item[1], reverse=True)
     if len(movies) < n:
-        #print(movies_to_rating_sort)
-        return movies_to_rating_sort
+        allMovies = [i[0] for i in movies_to_rating_sort]
+        return allMovies
     else:
         dct = {}
         for movie in movies:
             dct[movie] = movie_to_average_rating[movie]
-        #print(dct)
-        movies_to_rating_sort = sorted(dct.items(), key = lambda item: item[1], reverse = True)
         dctFinal = {}
         for movie in movies_to_rating_sort[0:n]:
             dctFinal[movie[0]] = movie_to_average_rating[movie[0]]
-        #print(dctFinal)
         return dctFinal
 
 # 3.4
 def get_genre_rating(genre, genre_to_movies, movie_to_average_rating):
-    genre_to_movies = genre_to_movies
-    movie_to_average_rating = movie_to_average_rating
+
     genre_rating = {}
     rating = []
     dct = {}
-    
+
     for movie in genre_to_movies[genre]:
         rating.append(movie_to_average_rating[movie])
-        
+
     avg_rating = sum(rating)/len(rating)
-        
+
     dct[genre] = avg_rating
-    
+
     return dct
 
 # 3.5
 def genre_popularity(genre_to_movies, movie_to_average_rating, n=5):
-    pass
+    genre_rating = {}
+    dct = {}
 
+    for genre in genre_to_movies:
+        rating = []
+        for movie in genre_to_movies[genre]:
+            rating.append(movie_to_average_rating[movie])
+
+        avg_rating = sum(rating)/len(rating)
+
+        genre_rating[genre] = avg_rating
+
+    genre_to_rating_sort = sorted(genre_rating.items(), key = lambda item: item[1], reverse = True)
+
+    if len(genre_rating) < n:
+        allGenre = [i[0] for i in genre_to_rating_sort]
+        return allGenre
+    else:
+        for genre in genre_to_rating_sort[0:n]:
+            dct[genre[0]] = genre_rating[genre[0]]
+            #print(genre_to_rating_sort)
+
+    return dct
+    
+    
+    
+    #return genre:average rating
+    
 # --- TASK 4: USER FOCUSED ---
 
 # 4.1
@@ -132,7 +151,7 @@ def read_user_ratings(f):
         if line[line.index('|')+5:].strip('\n') not in dct:
             dct[line[line.index('|')+5:].strip('\n')] = list()
         dct[line[line.index('|')+5:].strip('\n')].append(tuple((line[:line.index('|')],line[line.index('|')+1:line.index('|')+4])))
-    return dct 
+    return dct
 
 # 4.2
 def get_user_genre(user_id, user_to_movies, movie_to_genre):
@@ -174,8 +193,9 @@ def main():
             calculate_average_rating(read_ratings_data("movieRatingSample.txt"))
             ),'\n',
         read_user_ratings("movieRatingSample.txt"),'\n',
-        get_user_genre(43,read_user_ratings("movieRatingSample.txt"), read_movie_genre('genreMovieSample.txt'))
-        )
+        get_user_genre(43,read_user_ratings("movieRatingSample.txt"), read_movie_genre('genreMovieSample.txt')), '\n',
+        genre_popularity(create_genre_dict(read_movie_genre('genreMovieSample.txt')), calculate_average_rating(read_ratings_data("movieRatingSample.txt")), n=5)
 
+        )
    
 main()
