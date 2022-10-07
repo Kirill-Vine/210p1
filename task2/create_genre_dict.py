@@ -22,4 +22,5 @@ def create_genre_dict(d):
             result[genre] = [movie]
     return result
 
+
 create_genre_dict(read_movie_genre('genreMovieSample.txt'))
